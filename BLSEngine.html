@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>MainGUI Animation test</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+html, body {
+    margin:0; padding:0; width:100%; height:100%;
+    background: red;
+    display:flex; justify-content:center; align-items:center;
+    font-family: Arial, sans-serif;
+    overflow:hidden;
+}
+// This Animations will be on the MainMenu of the client for the buttons as like Singleplayerz multiplayer e.g
+#button {
+    width:200px; height:50px;
+    background:#2b2b2b; color:white; border-radius:8px;
+    display:flex; justify-content:center; align-items:center;
+    cursor:pointer; font-size:18px;
+    transition: all 0.6s ease;
+    position: relative;
+    z-index:2;
+    overflow:hidden;
+}
+
+#button .panelText {
+    opacity:1;
+    transition: opacity 0.3s ease;
+}
+
+#overlay {
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(8px);
+    display:none;
+    z-index:1;
+}
+</style>
+</head>
+<body>
+
+<div id="overlay"></div>
+<div id="button"><span class="panelText">Click Me</span></div>
+
+<script>
+const button = document.getElementById("button");
+const overlay = document.getElementById("overlay");
+const text = button.querySelector(".panelText");
+let expanded = false;
+
+// Düğme tıklama fonksiyonu
+function toggleButton() {
+    const bodyRect = document.body.getBoundingClientRect();
+    const width = 200;
+    const height = 50;
+    const left = (window.innerWidth - width)/2;
+    const top = (window.innerHeight - height)/2;
+
+    if(!expanded) {
+        expanded = true;
+        overlay.style.display="block";
+
+        // Başlangıç pozisyon
+        const rect = button.getBoundingClientRect();
+        button.style.position="absolute";
+        button.style.left = rect.left + "px";
+        button.style.top = rect.top + "px";
+
+        // Yazıyı kaybet
+        text.style.opacity = 0;
+
+        // Animasyon ile büyüt (%90 ekran)
+        requestAnimationFrame(()=>{
+            button.style.left = "5%";
+            button.style.top = "5%";
+            button.style.width = "90%";
+            button.style.height = "90%";
+            button.style.borderRadius = "0px";
+        });
+    } else {
+        expanded = false;
+        // Küçültme animasyonu
+        button.style.left = left + "px";
+        button.style.top = top + "px";
+        button.style.width = width + "px";
+        button.style.height = height + "px";
+        button.style.borderRadius = "8px";
+
+        // Overlay gizle
+        setTimeout(()=>{ overlay.style.display="none"; }, 600);
+        // Yazıyı geri göster
+        setTimeout(()=>{ text.style.opacity = 1; }, 300);
+    }
+}
+
+// Düğmeye tıkla
+button.addEventListener("click", toggleButton);
+// Overlay tıkla
+overlay.addEventListener("click", toggleButton);
+</script>
+
+</body>
+</html>
