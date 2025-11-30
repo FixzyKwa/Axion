@@ -34,7 +34,7 @@ public class Axa {
             return false;
         }
     }
-
+    // A very poor version btw
     // Oyunu kapatan Auth metodu
     public static void Auth(String uuid, String nickname) {
         if (validate(uuid, nickname)) {
