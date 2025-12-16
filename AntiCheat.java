@@ -1,1 +1,1 @@
-This file is no longer available to block malware owners.
+This file is no longer available to block malware and cheat developers
